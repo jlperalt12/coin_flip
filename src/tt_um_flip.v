@@ -151,7 +151,7 @@ module detect_edge (
 
   reg state_l, prev_state_l;
 
-  always @(posedge clk_i or posedge reset_i) begin
+  always @(posedge clk_i) begin
     if (reset_i) begin
       state_l      <= 1'b0;
       prev_state_l <= 1'b0;
