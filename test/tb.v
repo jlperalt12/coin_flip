@@ -22,7 +22,7 @@ module tb ();
   wire [7:0] uio_out;
   wire [7:0] uio_oe;
 
-  tt_um_flip user_project (
+  tt_um_flip user_project  (
     .ui_in  (ui_in),
     .uo_out (uo_out),
     .uio_in (uio_in),
@@ -31,10 +31,6 @@ module tb ();
     .ena    (ena),
     .clk    (clk),
     .rst_n  (rst_n)
-`ifdef USE_POWER_PINS
-    ,.vccd1(1'b1),
-    .vssd1 (1'b0)
-`endif
   );
 
 endmodule

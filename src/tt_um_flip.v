@@ -61,7 +61,7 @@ module coin_flip #(
   localparam SEG_BLANK = 7'b0000000;
 
   // Debounce + edge detect
-  wire btn_db, btn_pulse, btn_unp;
+  wire btn_db, btn_pulse;
 
   debounce #(.min_delay_p(DEBOUNCE_DELAY)) u_db (
     .clk_i(clk_i), .reset_i(reset_i),
@@ -70,7 +70,7 @@ module coin_flip #(
 
   detect_edge u_edge (
     .clk_i(clk_i), .reset_i(reset_i),
-    .button_i(btn_db), .button_o(btn_pulse), .unbutton_o(btn_unp)
+    .button_i(btn_db), .button_o(btn_pulse), .unbutton_o()
   );
 
   // Free-running toggle (flips every clock cycle)
@@ -100,7 +100,7 @@ module coin_flip #(
   assign cat_o = 1'b0;
 
   // Segment output
-  always @(*) begin
+  always @(posedge clk_i) begin
     if (!has_result_r)
       seg_o = SEG_BLANK;
     else if (result_r)
