@@ -24,7 +24,7 @@ async def reset(dut):
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(dut.clk, 100)  # increased from 10 to 100
 
 
 async def press_button(dut):
@@ -45,9 +45,9 @@ def get_seg(dut):
 def get_cat(dut):
     """Extract the CAT bit from uo_out[7]."""
     try:
-        return (int(dut.uo_out.value) >> 7) & 1
+        return int(dut.uo_out[7].value)
     except ValueError:
-        return -1  # X/Z present — treat as unknown
+        return -1
 
 
 @cocotb.test()
@@ -78,7 +78,7 @@ async def test_cat_always_zero(dut):
 @cocotb.test()
 async def test_first_flip_shows_h_or_t(dut):
     """After first button press, display shows H or t."""
-    clock = Clock(dut.clk, 10, units="us")
+    clock = Clock(dut.clk, 10, unit="us")
     cocotb.start_soon(clock.start())
     await reset(dut)
 
@@ -91,7 +91,7 @@ async def test_first_flip_shows_h_or_t(dut):
 @cocotb.test()
 async def test_multiple_flips_valid(dut):
     """All flips produce valid H or t output."""
-    clock = Clock(dut.clk, 10, units="us")
+    clock = Clock(dut.clk, 10, unit="us")
     cocotb.start_soon(clock.start())
     await reset(dut)
 
@@ -106,7 +106,7 @@ async def test_multiple_flips_valid(dut):
 @cocotb.test()
 async def test_both_outcomes_appear(dut):
     """Over many flips, both H and t should appear."""
-    clock = Clock(dut.clk, 10, units="us")
+    clock = Clock(dut.clk, 10, unit="us")
     cocotb.start_soon(clock.start())
     await reset(dut)
 
@@ -130,7 +130,7 @@ async def test_both_outcomes_appear(dut):
 @cocotb.test()
 async def test_debounce_single_action(dut):
     """Holding the button should only produce one flip, not continuous flips."""
-    clock = Clock(dut.clk, 10, units="us")
+    clock = Clock(dut.clk, 10, unit="us")
     cocotb.start_soon(clock.start())
     await reset(dut)
 
