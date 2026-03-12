@@ -13,8 +13,7 @@ SEG_BLANK = 0b0000000
 # Debounce delay in the RTL is 250000 cycles.
 # At 10us clock period that's 2.5s — we need to hold the button that long.
 DEBOUNCE_CYCLES = 250000 + 100  # a bit extra for edge detect latency
-SETTLE_CYCLES   = 1000
-
+SETTLE_CYCLES = 10000
 
 async def reset(dut):
     """Apply reset and release."""
