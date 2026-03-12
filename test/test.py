@@ -45,7 +45,8 @@ def get_seg(dut):
 def get_cat(dut):
     """Extract the CAT bit from uo_out[7]."""
     try:
-        return int(dut.uo_out[7].value)
+        val = dut.uo_out.value
+        return int(val[0])  # cocotb LogicArray indexes MSB-first, so [0] = bit 7
     except ValueError:
         return -1
 
