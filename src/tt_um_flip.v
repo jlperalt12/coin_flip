@@ -100,7 +100,7 @@ module coin_flip #(
   assign cat_o = 1'b0;
 
   // Segment output
-  always @(posedge clk_i) begin
+  always @(*) begin
     if (!has_result_r)
       seg_o = SEG_BLANK;
     else if (result_r)
